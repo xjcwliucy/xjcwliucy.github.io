@@ -1,0 +1,68 @@
+theme: 
+  switch: true 
+  default: style-light
+
+favicon:
+  logo: 'https://cdn.luogu.com.cn/upload/image_hosting/oa149f8r.png'
+
+footer:
+  live_time:
+    enable: true
+    prefix: footer.tips
+    start_time: 03/08/2023 15:00
+
+user:
+  name: Rain
+  first_name: ''
+  last_name: Rain
+  email: liucy6662021@163.com
+  domain: https://xjcwliucy.github.io
+  avatar: https://cdn.luogu.com.cn/upload/image_hosting/rvjsbt28.png?x-oss-process=image/resize,m_lfit,h_170,w_225
+  describe: OIer
+  ruleText: 闲登小阁————“看心情”
+
+sidebar:
+  typedTextPrefix: I`m
+  typedText: [ 'OI Competitor' ]
+  info: # 个人信息 
+    - key: 地址 
+      val: Mars
+    - key: 年龄
+      val: 15
+    - key: 性别
+      val: 男
+  social:
+
+banner:
+  index:
+    type: img
+    bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
+    bannerTitle: 树深时见鹿，<br>溪午不闻钟。
+    bannerText: Hi my new friend!
+
+top_bars:
+  - title: Home
+    url: /
+  - title: Archives
+    url: /archives/
+    noswup: true
+
+toc:
+  enable: true
+  list_number: true
+  max_depth: 3
+  min_depth: 1
+
+creative_commons:
+  license: by-nc-sa
+  language: deed.zh
+  post: true
+  clipboard: false
+
+highlight:
+  theme: true 
+  title: default
+  copy: true
+  lang: true
+  code_word_wrap: false 
+  height_limit: 200
