@@ -1,57 +1,40 @@
-name: Hexo Deploy
+name: Deployment
 
 on:
   push:
-    branches:
-      - main
+    branches: main
 
 jobs:
-  build:
+  hexo-deployment:
     runs-on: ubuntu-latest
- 
+    env:
+      TZ: Asia/Shanghai
+
     steps:
-    - name: Checkout # Checkout 仓库
+    - name: Checkout source
       uses: actions/checkout@v2
       with:
-        ref: main
- 
-    - name: Setup Node # 安装 Node.js
+        submodules: true
+
+    - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: "16.x"
- 
-    - name: Install Hexo # 安装 Hexo
+        node-version: '16.x'
+
+    - name: Install dependencies & Generate static files
       run: |
-        npm install hexo-cli -g
-        
-    - name: Cache Modules # 缓存 Node 插件
-      uses: actions/cache@v1
-      id: cache-modules
-      with:
-        path: node_modules
-        key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
- 
-    - name: Install Dependencies # 如果没有缓存或 插件有更新，则安装插件
-      if: steps.cache-modules.outputs.cache-hit != 'true'
-      run: | # 如果仓库里没有 package-lock.json，上传一下，npm ci 必须要有 package-lock.json
-        npm ci
-    - name: Generate # 生成
-      run: |
+        node -v
+        npm i -g hexo-cli
+        npm i
         hexo clean
-        hexo generate
-    - name: Deploy # 部署
+        hexo g
+    - name: Deploy to Github Pages
+      env:
+        REPO: github.com/xjcwliucy/xjcwliucy.github.io
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git config --global user.name "Rain Hexo Bot"
-        git config --global user.email "rainhexobot@local.host"
-        cd public/
-        git init
-        git add -A
-        git commit -m "Create by workflows"
-        git remote add origin https://github.com/xjcwliucy/xjcwliucy.github.io.git
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
-        force_with_lease: true
-        directory: public
+        cd ./public && git init && git add .
+        git config --global user.name "RainBot"
+        git config --global user.email "RainBot@local.host"
+        git commit -m "Site deployed by GitHub Actions"
+        git push --force --quiet "https://$GH_TOKEN@$REPO" master:gh-pages
