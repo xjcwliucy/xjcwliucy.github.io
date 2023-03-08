@@ -13,7 +13,7 @@ jobs:
     - name: Checkout # Checkout 仓库
       uses: actions/checkout@v2
       with:
-        ref: master
+        ref: main
  
     - name: Setup Node # 安装 Node.js
       uses: actions/setup-node@v1
@@ -48,7 +48,7 @@ jobs:
         git add -A
         git commit -m "Create by workflows"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@main
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
