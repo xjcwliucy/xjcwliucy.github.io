@@ -31,7 +31,7 @@ jobs:
     - name: Deploy to Github Pages
       env:
         REPO: github.com/xjcwliucy/xjcwliucy.github.io
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         cd ./public && git init && git add .
         git config --global user.name "RainBot"
