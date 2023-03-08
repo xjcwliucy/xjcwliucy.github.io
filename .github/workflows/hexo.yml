@@ -47,6 +47,7 @@ jobs:
         git init
         git add -A
         git commit -m "Create by workflows"
+        git remote add origin https://github.com/xjcwliucy/xjcwliucy.github.io.git
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
