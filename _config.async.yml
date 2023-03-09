@@ -35,12 +35,12 @@ sidebar:
     - icon: fas fa-rss
       url: atom.xml
 banner:
-  # default:
-  #   type: img
-  #   # bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
-  #   bgurl: /img/toutu.jpg
-  #   bannerTitle: 树深时见鹿，<br>溪午不闻钟。
-  #   bannerText: Hi my new friend!
+  default:
+    type: img
+    # bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
+    bgurl: /img/toutu.jpg
+    bannerTitle: 树深时见鹿，<br>溪午不闻钟。
+    bannerText: Hi my new friend!
   index:
     type: img
     # bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
@@ -53,6 +53,7 @@ banner:
     bgurl: /img/toutu.jpg
     bannerTitle: 树深时见鹿，<br>溪午不闻钟。
     bannerText: Hi my new friend!
+
 top_bars:
   - title: Home
     url: /
