@@ -1,6 +1,9 @@
 <!--
 
 使用指南：
+
+npm install -g hexo-cli
+
 1. 配置好ssh之类的环境
 2. git clone git@github.com:xjcwliucy/xjcwliucy.github.io.git
 3. hexo new '<POST_NAME>'
