@@ -6,7 +6,7 @@ category: ['题解']
 ---
 正解：**贪心**+**并查集**维护。
 
-# Sulution of CF853A(Planning)
+# Sulution
 
 ### 简述题意 / General describe:
 
