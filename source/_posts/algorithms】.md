@@ -155,4 +155,115 @@ int main()
 } 
 ```
 
+## 二、SPFA
+
+1. 算法简介：$Bellman-Ford$ 算法的队列优化版本，与 $Bellman-Ford$ 有同样的功能，却有平均更优的时间复杂度，故这里不讲解 $Bellman_Ford$，仅讲解 $SPFA$。
+2. 算法功能：可求单源最短路，并可以解决**带负边权和带负环**的图，或者换句话说，就是**迪杰斯特拉的负边权适配版本**。因为要适配负边权，所以**比迪杰斯特拉有更劣的时间复杂度**，最慢为 $O(VE)$。
+3. 算法思想：与迪杰斯特拉非常相像，因为迪杰斯特拉只用处理正边权，所以一个点只需要成为一次基准点就可以了，因为目前所有的点的 Dis值都已经大于该点，之后也不可能拐个弯就更小了；SPFA 不一样，因为有负边权，所以是真的有可能“拐个弯反而比该点小”的，此时就需要**让该点再一次成为基准点**，进行更新。所以相较于迪杰斯特拉，只需要**在一个点出队后把它的基准点标记删除**，使其可以再次成为基准点，该算法就变成了SPFA。
+4. 双端队列优化：在这里有一个极小极小（指码量）的优化，但是可以大大提升算法的时间复杂度。因为SPFA算法需要多次更新，所以给每次更新排序成为了没有意义的操作。这意味着迪杰斯特拉中的优先队列优化对SPFA没有意义，但是我们仍有一种情况需要尽量获得更小的基准值——判断负环。因为一旦找到负环我们就应该中止程序，所以越早找到负环就可以越早完成；但是毫无疑问，为了一个不确定的复杂度而在所有的情况下加上 $O(\log n)$ 的复杂度是很不划算的，所以我们可以获得一个近似的优化——**将即将插入队列的值与队首做比较，如果比队首的小，那么插入队首；否则，插入队尾。**这样的操作在一定程度上获得了局部有序。
+5. 例题（[Luogu-P2850 [USACO06DEC]Wormholes G](https://www.luogu.com.cn/problem/P2850)）& 代码示例：
+```cpp
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <queue>
+#include <bitset>
+using namespace std;
+const int INF = 0x3f3f3f3f;
+const int maxn = 502;
+
+int t;
+int n,m,w;
+int ans;
+int cnt[maxn];
+vector<int> edge[maxn];
+map<int, int> mp[maxn];
+bitset<maxn> vist;
+int dis[maxn];
+deque<int> q;
+int u, v, p;
+void mem();
+void make_edge(const int &L1, const int &L2, const int &V);
+bool SPFA(int root);
+
+int main() {
+	scanf("%d", &t);
+	while(t--) {
+		mem();
+		scanf("%d%d%d", &n, &m, &w);
+		for(int i = 1 ; i<= m ; i++) {
+			scanf("%d%d%d", &u, &v, &p);
+			make_edge(u, v, p);
+			make_edge(v, u, p);
+		}
+		for(int i = 1 ; i<= w ; i++) {
+			scanf("%d%d%d", &u, &v, &p);
+			make_edge(u, v, -p);
+		}
+		if(SPFA(1))
+			puts("YES");
+		else
+			puts("NO");
+	}
+	return 0;
+} 
+
+void mem() {
+	ans = INF;
+	for(int i = 0 ; i< maxn ; i++)
+		edge[i].clear();
+	for(int i = 0 ; i< maxn ; i++)
+		mp[i].clear();
+	for(int i = 0 ; i< maxn ; i++)
+		cnt[i] = 0;
+	return ;
+}
+
+void make_edge(const int &L1, const int &L2, const int &V) {
+	edge[L1].push_back(L2);
+	if(mp[L1].find(L2) == mp[L1].end()) {
+		mp[L1].insert({L2,V});
+	} else {
+		mp[L1][L2] = min(mp[L1][L2], V);
+	}
+	return ;
+}
+
+bool SPFA(int root) {
+	vist.reset();
+	for(int i = 1 ; i<= n ; i++) {
+		dis[i] = INF;
+	}
+	dis[root] = 0;
+	q.clear();
+	q.push_back(root);
+	vist[root] = true;
+	while(!q.empty()) {
+		int ben = q.front();
+		q.pop_front();
+//		cout << ben << endl;
+		for(int tmp : edge[ben]) {
+			if(dis[tmp] > dis[ben]+mp[ben][tmp]) {
+				dis[tmp] = min(dis[tmp], dis[ben]+mp[ben][tmp]);
+				cnt[tmp]++;
+				if(cnt[tmp] > n-1)
+					return true;
+				if(!q.empty() && dis[tmp] <= dis[q.front()] && !vist[tmp]) {
+					q.push_front(tmp);
+					vist[tmp] = true;
+				} else if(!vist[tmp]) {
+					q.push_back(tmp);
+					vist[tmp] = true;
+				}
+			}
+			
+		}
+		vist[ben] = false;
+	}
+	return false;
+}
+```
+思路解释：原题意要求回答是否可以从一个点回到该点并带回负权值，这显然就是负环的定义，只需要使用SPFA+双端队列优化判断负环即可。
+
 持续更新中。。。。。。
