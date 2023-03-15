@@ -48,7 +48,7 @@ banner:
     type: img
     # bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
     bgurl: /img/toutu.jpg
-    bannerTitle: 山高朔望，<br>月明星稀。
+    bannerTitle: 挑兮达兮，<br>在城阙兮。
     bannerText: Hi my new friend!
   archive:
     type: img
