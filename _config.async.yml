@@ -1,6 +1,6 @@
 theme: 
   switch: true 
-  default: style-dark
+  default: style-light
 
 favicon:
   logo: 'https://cdn.luogu.com.cn/upload/image_hosting/oa149f8r.png'
