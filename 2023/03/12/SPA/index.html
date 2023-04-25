@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="单源最短路算法 介绍：此类最短路算法需要指定一个“源”点，并计算出该点到图中所有点的最短距离。  迪杰斯特拉算法【Dijkstra】  算法简介：迪杰斯特拉【Dijkstra】是由 EdsgerWybeDijkstraEdsger Wybe DijkstraEdsgerWybeDijkstra 发明的单源最短路算法，其朴素版本可以在 O(n2)O(n^2)O(n2) 的时间复杂度内求解出连通图内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路算法集合【A collection of shortest path algorithms】">
+<meta property="og:url" content="https://xjcwliucy.github.io/2023/03/12/SPA/index.html">
+<meta property="og:site_name" content="Rain&#39;s Blog">
+<meta property="og:description" content="单源最短路算法 介绍：此类最短路算法需要指定一个“源”点，并计算出该点到图中所有点的最短距离。  迪杰斯特拉算法【Dijkstra】  算法简介：迪杰斯特拉【Dijkstra】是由 EdsgerWybeDijkstraEdsger Wybe DijkstraEdsgerWybeDijkstra 发明的单源最短路算法，其朴素版本可以在 O(n2)O(n^2)O(n2) 的时间复杂度内求解出连通图内">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-03-12T04:26:01.000Z">
+<meta property="article:modified_time" content="2023-04-25T09:37:31.806Z">
+<meta property="article:author" content="Rain">
+<meta name="twitter:card" content="summary">
+
+
+<title >最短路算法集合【A collection of shortest path algorithms】</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.3' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.3' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"xjcwliucy.github.io","author":"Rain","root":"/","typed_text":["a OI Competitor"],"theme_version":"2.0.3","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"https://cdn.luogu.com.cn/upload/image_hosting/oa149f8r.png","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":200}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-04-25 17:37:31"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.3" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Rain's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="https://cdn.luogu.com.cn/upload/image_hosting/oa149f8r.png">
+    
+    
+        <div class="trm-logo-text">
+            Rain<span></span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/archives/" target="">
+                    Archives
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/toutu.jpg">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            最短路算法集合【A collection of shortest path algorithms】
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="https://cdn.luogu.com.cn/upload/image_hosting/rvjsbt28.png?x-oss-process=image/resize,m_lfit,h_170,w_225">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Rain
+    </h5>
+    
+        <div class="trm-label">
+            I`m
+            <span class="trm-typed-text">
+                <!-- Words for theme.user.typedText -->
+            </span>
+        </div>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="/atom.xml" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-rss"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                地址:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                年龄:
+            </div>
+            <div class="trm-label trm-label-light">
+                Fifteen
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                性别:
+            </div>
+            <div class="trm-label trm-label-light">
+                Male
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                取向:
+            </div>
+            <div class="trm-label trm-label-light">
+                Both
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:liucy6662021@163.com" class="trm-btn">
+            联系我
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#单源最短路算法"  data-scroll-to="#单源最短路算法"><span class="toc-number">1.</span> <span class="toc-text"> 单源最短路算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#迪杰斯特拉算法dijkstra"  data-scroll-to="#迪杰斯特拉算法dijkstra"><span class="toc-number">1.1.</span> <span class="toc-text"> 迪杰斯特拉算法【Dijkstra】</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#spfa"  data-scroll-to="#spfa"><span class="toc-number">1.2.</span> <span class="toc-text"> SPFA</span></a></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#多源最短路"  data-scroll-to="#多源最短路"><span class="toc-number">2.</span> <span class="toc-text"> 多源最短路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#弗洛伊德算法floyd"  data-scroll-to="#弗洛伊德算法floyd"><span class="toc-number">2.1.</span> <span class="toc-text"> 弗洛伊德算法【Floyd】</span></a></li></ol></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            03/12
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            12:26
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Rain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="单源最短路算法"><a class="markdownIt-Anchor" href="#单源最短路算法"></a> 单源最短路算法</h1>
+<p>介绍：此类最短路算法需要指定一个“源”点，并计算出该点到图中所有点的最短距离。</p>
+<h2 id="迪杰斯特拉算法dijkstra"><a class="markdownIt-Anchor" href="#迪杰斯特拉算法dijkstra"></a> 迪杰斯特拉算法【Dijkstra】</h2>
+<ol>
+<li>算法简介：迪杰斯特拉【Dijkstra】是由 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>E</mi><mi>d</mi><mi>s</mi><mi>g</mi><mi>e</mi><mi>r</mi><mi>W</mi><mi>y</mi><mi>b</mi><mi>e</mi><mi>D</mi><mi>i</mi><mi>j</mi><mi>k</mi><mi>s</mi><mi>t</mi><mi>r</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">Edsger Wybe Dijkstra</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mord mathdefault">d</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">b</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span></span></span></span> 发明的<strong>单源</strong>最短路算法，其朴素版本可以在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的时间复杂度内求解出连通图内所有点到一个定点的最短路线。</li>
+<li>算法思想：该算法采用<strong>贪心</strong>的策略，从“源”开始作为基准点，更新与其相邻的点到“源”的距离，并选其中<strong>距离“源”最近的、没有作为过基准点</strong>的点作为新的基准点，进行下一次遍历，直到图中所有点都成为过基准点。</li>
+<li>例题（<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3371">Luogu-P3371【单源最短路弱化版】</a>） &amp; 算法实现：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INF 2147483647</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> N,M,Root;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> Dis[<span class="number">100005</span>];</span><br><span class="line">bitset&lt;100005&gt; Vist;</span><br><span class="line">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; edge[<span class="number">100005</span>];</span><br><span class="line">map&lt;<span class="type">long</span> <span class="type">long</span>,<span class="type">long</span> <span class="type">long</span>&gt; Mp[<span class="number">100005</span>];</span><br><span class="line"><span class="comment">//本人习惯于使用vector存边的关系；使用map存边的长度</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="type">long</span> <span class="type">long</span> Root)</span><span class="comment">//Root =&gt; “源”</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Vist.<span class="built_in">reset</span>();<span class="comment">//bool数组，空间大小 O(n)，用以记录每个节点是否已经成为过基准点</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span> ; i&lt;= N ; i++)</span><br><span class="line">		Dis[i] = INF;<span class="comment">//Dis数组，记录每个点到“源”的距离</span></span><br><span class="line">	Dis[Root] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span> ; i&lt;= N ; i++)<span class="comment">//每个点都应成为一次基准点，故循环 n 次</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">long</span> <span class="type">long</span> Min = INF;</span><br><span class="line">		<span class="type">long</span> <span class="type">long</span> K = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//Min =&gt; 当前轮Dis的最小值；K =&gt; 该最小值对应的节点</span></span><br><span class="line">        <span class="comment">//请注意：此处为不严谨写法，因为 K 节点的 Dis值不一定为 INF，但下一处循环一定会更新到它，所以不必担心</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> j = <span class="number">1</span> ; j&lt;= N ; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(!Vist[j] &amp;&amp; Dis[j] &lt; Min)</span><br><span class="line">			&#123;</span><br><span class="line">				Min = Dis[j];</span><br><span class="line">				K = j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		Vist[K] = <span class="literal">true</span>;<span class="comment">//K 成为基准点</span></span><br><span class="line">		<span class="keyword">for</span>(vector&lt;<span class="type">long</span> <span class="type">long</span>&gt;::iterator it = edge[K].<span class="built_in">begin</span>() ; it != edge[K].<span class="built_in">end</span>() ; it++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(!Vist[*it] &amp;&amp; Min+Mp[K][*it] &lt; Dis[*it])</span><br><span class="line">			&#123;</span><br><span class="line">				Dis[*it] = Min+Mp[K][*it];<span class="comment">//更新与 K 相邻的点的 Dis值</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span> ; i&lt;= N ; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld &quot;</span>,Dis[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld&quot;</span>,&amp;N,&amp;M,&amp;Root);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>,L1,L2,Value ; i&lt;= M ; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld&quot;</span>,&amp;L1,&amp;L2,&amp;Value);</span><br><span class="line">		edge[L1].<span class="built_in">push_back</span>(L2);</span><br><span class="line">		<span class="keyword">if</span>(Mp[L1].<span class="built_in">find</span>(L2) == Mp[L1].<span class="built_in">end</span>())<span class="comment">//判断重边，若有，取最小值边</span></span><br><span class="line">			Mp[L1].<span class="built_in">insert</span>(&#123;L2,Value&#125;);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			Mp[L1][L2] = <span class="built_in">min</span>(Mp[L1][L2],Value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">Dijkstra</span>(Root);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>迪杰斯特拉<strong>优化</strong>：对于一个单源最短路的算法而言， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的时间复杂度绝对算不上优秀，于是，<strong>比迪杰斯特拉算法本身更重要</strong>的优化算法————<strong>堆优化</strong>，产生了。</li>
+<li>堆优化思路：详细阅读迪杰斯特拉算法的代码，会发现每一次求最小值时需要完全遍历一遍，直接贡献了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 的时间复杂度，用脚想一想也知道是可以————至少是应该，优化的。这里，我们选用了<strong>小根堆</strong>的数据结构进行优化。小根堆是一种树形结构，可以使用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 的时间插入，并用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 的时间复杂度获取<strong>所有已插入值中的最小值</strong>，于是整体时间复杂度被降至 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>，这样的复杂度适用于 大/中 型图，这意味着优化版的迪杰斯特拉是优秀的单源最短路算法。</li>
+<li>堆优化的实现：小根堆可以自行实现，也可以直接使用 c++ 的 stl 库中的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mi>r</mi><mi>i</mi><mi>o</mi><mi>r</mi><mi>i</mi><mi>t</mi><msub><mi>y</mi><mi>q</mi></msub><mi>u</mi><mi>e</mi><mi>u</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">priority_queue</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9456279999999999em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span></span></span></span>（“优先队列”），为了不影响代码的整体结构，我通常更乐于使用 stl 的内容，这也是我推荐的做法。如果您乐于自行实现，可以自行百度做法。</li>
+<li>例题(<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4779">Luogu-P4779【单源最短路标准版】</a>) &amp; 算法实现：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 100005</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> N,M,S;</span><br><span class="line"><span class="type">int</span> Dis[maxn];</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; Edge[maxn];</span><br><span class="line">map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; Mp[maxn];</span><br><span class="line">priority_queue&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;, vector&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; &gt;, greater&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; &gt; &gt; Q;<span class="comment">//定义小根堆</span></span><br><span class="line"><span class="comment">// 实际上，stl中也有大根堆，可以取出最大值，使用方法与小根堆别无二致，定义方法如下：</span></span><br><span class="line"><span class="comment">// priority_queue&lt;type(int,char and so on), vector&lt;type&gt;, less&lt;type&gt; &gt; name;</span></span><br><span class="line">bitset&lt;maxn&gt; Vist;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BetterDijkstra</span><span class="params">(<span class="type">int</span> Root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(!Q.<span class="built_in">empty</span>()) Q.<span class="built_in">pop</span>();</span><br><span class="line">	Vist.<span class="built_in">reset</span>();</span><br><span class="line">	<span class="built_in">memset</span>(Dis,<span class="number">0x3f</span>,<span class="built_in">sizeof</span>(Dis) );</span><br><span class="line">	Dis[Root] = <span class="number">0</span>;</span><br><span class="line">	Q.<span class="built_in">push</span>(&#123;<span class="number">0</span>,Root&#125;);</span><br><span class="line">    <span class="comment">// pair&lt;int,int&gt; 是一个复合类型，由两个 int 组成，使用 name.first 访问第一个int值，并用 name.second 访问第二个。</span></span><br><span class="line">    <span class="comment">// 当给 pair&lt;int,int&gt; 排序时，会自动以 name.first 的值作为唯一关键字进行排序。现在将 name.first 赋值为基准点的 Dis值，整个优先队列就会自动按照 Dis值升序排列。</span></span><br><span class="line">	<span class="keyword">while</span>(!Q.<span class="built_in">empty</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> V = Q.<span class="built_in">top</span>().first;</span><br><span class="line">		<span class="type">int</span> Ben = Q.<span class="built_in">top</span>().second;</span><br><span class="line">        <span class="comment">// Q.top() 即是预备基准点的信息</span></span><br><span class="line">		Q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(Vist[Ben]) <span class="keyword">continue</span>;</span><br><span class="line">		Vist[Ben] = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> End : Edge[Ben])<span class="comment">// C++11及以后版本适用的vector遍历方法</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(Vist[End]) <span class="keyword">continue</span>;</span><br><span class="line">			Dis[End] = <span class="built_in">min</span>(Dis[End], V+Mp[Ben][End]);</span><br><span class="line">			Q.<span class="built_in">push</span>(&#123;Dis[End], End&#125;);</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MakeEdge</span><span class="params">(<span class="type">int</span> L1, <span class="type">int</span> L2, <span class="type">int</span> V)</span><span class="comment">// 加边函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Edge[L1].<span class="built_in">push_back</span>(L2);</span><br><span class="line">	<span class="keyword">if</span>(Mp[L1].<span class="built_in">find</span>(L2) == Mp[L1].<span class="built_in">end</span>())</span><br><span class="line">		Mp[L1].<span class="built_in">insert</span>(&#123;L2,V&#125;);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		Mp[L1][L2] = <span class="built_in">min</span>(Mp[L1][L2], V);</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> First, End, Value; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;N, &amp;M, &amp;S);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= M ; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;First, &amp;End, &amp;Value);</span><br><span class="line">		<span class="built_in">MakeEdge</span>(First,End,Value);	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">BetterDijkstra</span>(S);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= N ; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,Dis[i]);</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h2 id="spfa"><a class="markdownIt-Anchor" href="#spfa"></a> SPFA</h2>
+<ol>
+<li>算法简介：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>m</mi><mi>a</mi><mi>n</mi><mo>−</mo><mi>F</mi><mi>o</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Bellman-Ford</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">d</span></span></span></span> 算法的队列优化版本，与 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>m</mi><mi>a</mi><mi>n</mi><mo>−</mo><mi>F</mi><mi>o</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Bellman-Ford</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">d</span></span></span></span> 有同样的功能，却有平均更优的时间复杂度，故这里不讲解 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>m</mi><mi>a</mi><mi>n</mi><mo>−</mo><mi>F</mi><mi>o</mi><mi>r</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Bellman-Ford</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">d</span></span></span></span>，仅讲解 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mi>P</mi><mi>F</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">SPFA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">A</span></span></span></span>。</li>
+<li>算法功能：可求单源最短路，并可以解决<strong>带负边权和带负环</strong>的图，或者换句话说，就是<strong>迪杰斯特拉的负边权适配版本</strong>。因为要适配负边权，所以<strong>比迪杰斯特拉有更劣的时间复杂度</strong>，最慢为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>V</mi><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(VE)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>。</li>
+<li>算法思想：与迪杰斯特拉非常相像，因为迪杰斯特拉只用处理正边权，所以一个点只需要成为一次基准点就可以了，因为目前所有的点的 Dis值都已经大于该点，之后也不可能拐个弯就更小了；SPFA 不一样，因为有负边权，所以是真的有可能“拐个弯反而比该点小”的，此时就需要<strong>让该点再一次成为基准点</strong>，进行更新。所以相较于迪杰斯特拉，只需要<strong>在一个点出队后把它的基准点标记删除</strong>，使其可以再次成为基准点，该算法就变成了SPFA。</li>
+<li>双端队列优化：在这里有一个极小极小（指码量）的优化，但是可以大大提升算法的时间复杂度。因为SPFA算法需要多次更新，所以给每次更新排序成为了没有意义的操作。这意味着迪杰斯特拉中的优先队列优化对SPFA没有意义，但是我们仍有一种情况需要尽量获得更小的基准值——判断负环。因为一旦找到负环我们就应该中止程序，所以越早找到负环就可以越早完成；但是毫无疑问，为了一个不确定的复杂度而在所有的情况下加上 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 的复杂度是很不划算的，所以我们可以获得一个近似的优化——<strong>将即将插入队列的值与队首做比较，如果比队首的小，那么插入队首；否则，插入队尾</strong>。这样的操作在一定程度上获得了局部有序。</li>
+<li>判断负环：相较于迪杰斯特拉，SPFA在处理负环方面格外有效。我们可以思考，如果一个图中没有负环，一个点最多被更新多少次？实际上，<strong>对于一个有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span> 个点的图，一个点最多有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 条连边，每一条连边最多更新它一次</strong>。那么相反的，<strong>只要我们发现一个点被更新超过了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 次，那么就可以说明图中有至少一个负环</strong>。</li>
+<li>例题（<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2850">Luogu-P2850 [USACO06DEC]Wormholes G</a>）&amp; 代码示例：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">502</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> t;</span><br><span class="line"><span class="type">int</span> n,m,w;</span><br><span class="line"><span class="type">int</span> ans;</span><br><span class="line"><span class="type">int</span> cnt[maxn];</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; edge[maxn];</span><br><span class="line">map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; mp[maxn];</span><br><span class="line">bitset&lt;maxn&gt; vist;</span><br><span class="line"><span class="type">int</span> dis[maxn];</span><br><span class="line">deque&lt;<span class="type">int</span>&gt; q;</span><br><span class="line"><span class="type">int</span> u, v, p;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mem</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">make_edge</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;L1, <span class="type">const</span> <span class="type">int</span> &amp;L2, <span class="type">const</span> <span class="type">int</span> &amp;V)</span></span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SPFA</span><span class="params">(<span class="type">int</span> root)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;t);</span><br><span class="line">	<span class="keyword">while</span>(t--) &#123;</span><br><span class="line">		<span class="built_in">mem</span>();</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;n, &amp;m, &amp;w);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= m ; i++) &#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;u, &amp;v, &amp;p);</span><br><span class="line">			<span class="built_in">make_edge</span>(u, v, p);</span><br><span class="line">			<span class="built_in">make_edge</span>(v, u, p);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= w ; i++) &#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;u, &amp;v, &amp;p);</span><br><span class="line">			<span class="built_in">make_edge</span>(u, v, -p);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">SPFA</span>(<span class="number">1</span>))</span><br><span class="line">			<span class="built_in">puts</span>(<span class="string">&quot;YES&quot;</span>);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="built_in">puts</span>(<span class="string">&quot;NO&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ans = INF;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i&lt; maxn ; i++)</span><br><span class="line">		edge[i].<span class="built_in">clear</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i&lt; maxn ; i++)</span><br><span class="line">		mp[i].<span class="built_in">clear</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i&lt; maxn ; i++)</span><br><span class="line">		cnt[i] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">make_edge</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;L1, <span class="type">const</span> <span class="type">int</span> &amp;L2, <span class="type">const</span> <span class="type">int</span> &amp;V)</span> </span>&#123;</span><br><span class="line">	edge[L1].<span class="built_in">push_back</span>(L2);</span><br><span class="line">	<span class="keyword">if</span>(mp[L1].<span class="built_in">find</span>(L2) == mp[L1].<span class="built_in">end</span>()) &#123;</span><br><span class="line">		mp[L1].<span class="built_in">insert</span>(&#123;L2,V&#125;);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		mp[L1][L2] = <span class="built_in">min</span>(mp[L1][L2], V);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SPFA</span><span class="params">(<span class="type">int</span> root)</span> </span>&#123;</span><br><span class="line">	vist.<span class="built_in">reset</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= n ; i++) &#123;</span><br><span class="line">		dis[i] = INF;</span><br><span class="line">	&#125;</span><br><span class="line">	dis[root] = <span class="number">0</span>;</span><br><span class="line">	q.<span class="built_in">clear</span>();</span><br><span class="line">	q.<span class="built_in">push_back</span>(root);</span><br><span class="line">	vist[root] = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">		<span class="type">int</span> ben = q.<span class="built_in">front</span>();</span><br><span class="line">		q.<span class="built_in">pop_front</span>();</span><br><span class="line"><span class="comment">//		cout &lt;&lt; ben &lt;&lt; endl;</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> tmp : edge[ben]) &#123;</span><br><span class="line">			<span class="keyword">if</span>(dis[tmp] &gt; dis[ben]+mp[ben][tmp]) &#123;</span><br><span class="line">				dis[tmp] = <span class="built_in">min</span>(dis[tmp], dis[ben]+mp[ben][tmp]);</span><br><span class="line">				cnt[tmp]++;</span><br><span class="line">				<span class="keyword">if</span>(cnt[tmp] &gt; n<span class="number">-1</span>)</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				<span class="keyword">if</span>(!q.<span class="built_in">empty</span>() &amp;&amp; dis[tmp] &lt;= dis[q.<span class="built_in">front</span>()] &amp;&amp; !vist[tmp]) &#123;</span><br><span class="line">					q.<span class="built_in">push_front</span>(tmp);</span><br><span class="line">					vist[tmp] = <span class="literal">true</span>;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span>(!vist[tmp]) &#123;</span><br><span class="line">					q.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">					vist[tmp] = <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		vist[ben] = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路解释：原题意要求回答是否可以从一个点回到该点并带回负权值，这显然就是负环的定义，只需要使用SPFA+双端队列优化判断负环即可。</p>
+<h1 id="多源最短路"><a class="markdownIt-Anchor" href="#多源最短路"></a> 多源最短路</h1>
+<p>介绍：此类算法不需要指定一个“源”点，Ta可以计算出图中任意两个点之间的距离。</p>
+<h2 id="弗洛伊德算法floyd"><a class="markdownIt-Anchor" href="#弗洛伊德算法floyd"></a> 弗洛伊德算法【Floyd】</h2>
+<ol>
+<li>算法简介： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mi>l</mi><mi>o</mi><mi>y</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Floyd</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">d</span></span></span></span> 是一种多源最短路算法，能够在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的时间里计算出任意两个点之间的距离。该算法采用动态规划的思路。</li>
+<li>算法功能：正负权对 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mi>l</mi><mi>o</mi><mi>y</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Floyd</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">d</span></span></span></span> 没有影响，Ta可以处理绝大部分情况下的多元最短路问题。</li>
+<li>算法思路：首先，我们当然应该枚举 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 点和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> 点，作为此轮要更新的边的左右节点。其次，该算法要求我们枚举一个额外的变量 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>，并比较 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> 的距离和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 先到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>，再从 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> 的距离，如果后者小，更新边权。实际上，此时 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>D</mi><mi>i</mi><mi>s</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">Dis[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span> 代表的意义是：只经过 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">1,2,\dots,k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> 节点时， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> 的最短距离。</li>
+<li>注意事项：因为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mi>l</mi><mi>o</mi><mi>y</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Floyd</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">d</span></span></span></span> 采用动态规划的思想，所以<strong>保证无后效性</strong>是无比重要的。所以当我们安排三层循环的位置时，必须把 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> 层安排在最外面。可以参照 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>D</mi><mi>i</mi><mi>s</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">Dis[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span> 的意义来理解这一点。</li>
+<li>例题（<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2910">P2910 [USACO08OPEN]Clear And Present Danger S</a>）&amp; 示例代码：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;valarray&gt;</span></span></span><br><span class="line"><span class="type">int</span> a[<span class="number">101</span>][<span class="number">101</span>] , dis[<span class="number">100001</span>];</span><br><span class="line"><span class="type">int</span> n , m ;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span> , &amp;n , &amp;m );</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i &lt;= m ; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span> , &amp;dis[i]);	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ;  i&lt;= n ; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span> ; j &lt;= n ; j++) &#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span> , &amp;a[i][j]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">// Floyd 核心代码</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">1</span> ; k&lt;= n ; k++) &#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt;= n ; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span> ; j&lt;= n ; j++ ) &#123;</span><br><span class="line">				a[i][j] = std::<span class="built_in">min</span>(a[i][j] , a[k][j] + a[i][k]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">long</span> <span class="type">long</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i&lt; m ; i++) &#123;</span><br><span class="line">		ans += a[dis[i]][dis[i+<span class="number">1</span>]];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span> , ans);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本来还有 Johnson全源最短路算法，但是我懒，且其不必须，故不更新。希望了解-&gt;自行查阅。</p>
+
+</article>
+    
+    
+
+<ul class="trm-post-copyright">
+    <li class="trm-post-copyright-author">
+        <strong>本文作者：</strong>
+        Rain
+    </li>
+    <li class="trm-post-copyright-link">
+        <strong>本文链接：</strong>
+        <a id="original-link" href="https://xjcwliucy.github.io/2023/03/12/SPA/" title="最短路算法集合【A collection of shortest path algorithms】">https://xjcwliucy.github.io/2023/03/12/SPA/</a>
+    </li>
+    <li class="trm-post-copyright-license">
+        <strong>版权声明：</strong>
+        本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 ">CC BY-NC-SA 4.0</a> 许可协议。
+    </li>
+</ul>
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/15/DCS/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E7%AE%97%E6%B3%95/">
+                    算法
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/15/DCS/" class="trm-anima-link">
+                    差分约束系统【Differential confinement system】
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/15</li>
+                <li>12:31</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/10/%E6%97%A0%E7%9F%A5%E6%97%B6%E8%AF%8B%E6%AF%81%E5%8E%9F%E7%A5%9E/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E9%A2%98%E8%A7%A3/">
+                    题解
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/10/%E6%97%A0%E7%9F%A5%E6%97%B6%E8%AF%8B%E6%AF%81%E5%8E%9F%E7%A5%9E/" class="trm-anima-link">
+                    题解luogu-p8880【无知时诋毁原神】
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/10</li>
+                <li>14:22</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div id="giscus-wrap" class="trm-card trm-scroll-animation comment-container" data-scroll data-scroll-offset="50"></div>
+<script data-swup-reload-script>
+    function loadGiscus() {
+        let nowTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+        const config = {
+            src: 'https://giscus.app/client.js',
+            "data-repo": 'xjcwliucy/xjcwliucy.github.io',
+            "data-repo-id": 'R_kgDOJG1yBA',
+            "data-category": 'Show and tell',
+            "data-category-id": 'DIC_kwDOJG1yBM4CUxpj',
+            "data-mapping": 'pathname',
+            "data-reactions-enabled": '1',
+            "data-emit-metadata": '0',
+            "data-theme": nowTheme,
+            "data-lang": 'zh-CN',
+            crossorigin: "anonymous",
+            async: true
+        }
+        let ele = document.createElement('script')
+        for (let key in config) {
+            ele.setAttribute(key, config[key])
+        }
+        document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin', ele)
+    }
+
+    function changeGiscusTheme() {
+        let theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+
+        function sendMessage(message) {
+            const iframe = document.querySelector('iframe.giscus-frame');
+            if (!iframe) return;
+            iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+
+        sendMessage({
+            setConfig: {
+                theme: theme
+            }
+        });
+    }
+
+    loadGiscus();
+</script>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.3
+            </span>
+        </div>
+      
+
+    
+        <div class="trm-footer-item">
+            博客已萌萌哒运行 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        var BirthDay = new Date("03/08/2023 15:00");
+        var today = new Date();
+        var timeold = (today.getTime() - BirthDay.getTime());
+        var msPerDay = 24 * 60 * 60 * 1000
+        var day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="回到顶部">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+        <script src="/js/plugins/typing.js?v=2.0.3"></script>
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.3"></script>
+
+</body>
+
+</html>
